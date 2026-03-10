@@ -1,0 +1,419 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		04A384728F8C1ACBB92808FC /* PromptOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC18A3D186C65827441B2024 /* PromptOverlay.swift */; };
+		0C60F6605434198D366EA73A /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 63BF098A9252301A0E922532 /* SQLite */; };
+		0E698451E6A9E2F8D6C13483 /* AudioStreamMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1103574018FEBE077E026D /* AudioStreamMonitor.swift */; };
+		16891B0FA223E6E73F33D040 /* StartupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED510B3EB0FA8F17525E6CB3 /* StartupManager.swift */; };
+		224CB69528CD5D5B248B97A9 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B293F0F48C93F00051799D /* HistoryView.swift */; };
+		6D727FABD7213B7E021EAE07 /* RecordingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FDFB2D833A27D86C0D3792 /* RecordingOverlay.swift */; };
+		6E77DD20875400380FAFB48C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8CC6E7F439572B99BECDBF /* SettingsView.swift */; };
+		6FD04C36F1D5E084AE456665 /* AudioEngineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8EFC47D042A14771E612C4 /* AudioEngineManager.swift */; };
+		79429702740C485E808C5954 /* VitroscribeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3973C76133B07DA5C539EB5 /* VitroscribeApp.swift */; };
+		9CB5D792DB08EE6AD7C8DCAC /* GoogleAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E092A49E74CF95ADE7330568 /* GoogleAuthManager.swift */; };
+		B7ED8BD8FBB4AFA584F760DE /* GoogleCalendarService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A29B8192D972B9534A9DE9 /* GoogleCalendarService.swift */; };
+		B927D2909DA6F2AFC0797BA2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFFCA7FBA6BADCAB01576FC /* ContentView.swift */; };
+		BC847D668C9DD2B28B29FF66 /* MeetingDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEACBD12729DFE9EB28E473C /* MeetingDetector.swift */; };
+		BF8F2864DC25E77C59124D84 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7383C4943BBFCEA29F76F5 /* DatabaseManager.swift */; };
+		D1FC06685D29694422C5C207 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DC23E45C25C862190E1CE5 /* Logger.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		15DC23E45C25C862190E1CE5 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		1B1103574018FEBE077E026D /* AudioStreamMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioStreamMonitor.swift; sourceTree = "<group>"; };
+		2A8CC6E7F439572B99BECDBF /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		3B7383C4943BBFCEA29F76F5 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		49FDFB2D833A27D86C0D3792 /* RecordingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingOverlay.swift; sourceTree = "<group>"; };
+		74A29B8192D972B9534A9DE9 /* GoogleCalendarService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleCalendarService.swift; sourceTree = "<group>"; };
+		A6D8FB23DE19DB33044790AA /* Vitroscribe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vitroscribe.entitlements; sourceTree = "<group>"; };
+		AC18A3D186C65827441B2024 /* PromptOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptOverlay.swift; sourceTree = "<group>"; };
+		AE8EFC47D042A14771E612C4 /* AudioEngineManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEngineManager.swift; sourceTree = "<group>"; };
+		B34F9C5F71D2C0F71936E412 /* Vitroscribe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vitroscribe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BBFFCA7FBA6BADCAB01576FC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		BC198CFFD4AD688CFAF200A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C3973C76133B07DA5C539EB5 /* VitroscribeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitroscribeApp.swift; sourceTree = "<group>"; };
+		E092A49E74CF95ADE7330568 /* GoogleAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAuthManager.swift; sourceTree = "<group>"; };
+		E7B293F0F48C93F00051799D /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		ED510B3EB0FA8F17525E6CB3 /* StartupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupManager.swift; sourceTree = "<group>"; };
+		EEACBD12729DFE9EB28E473C /* MeetingDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingDetector.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9F68E956FD84500FE86294D3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C60F6605434198D366EA73A /* SQLite in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2246B62519345AE3EB9331BA /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				C05613A6BB3A799884E33BEA /* App */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		3131EFAE53269D1E7D1CBA48 /* Vitroscribe */ = {
+			isa = PBXGroup;
+			children = (
+				BC198CFFD4AD688CFAF200A4 /* Info.plist */,
+				A6D8FB23DE19DB33044790AA /* Vitroscribe.entitlements */,
+				2246B62519345AE3EB9331BA /* Sources */,
+			);
+			path = Vitroscribe;
+			sourceTree = "<group>";
+		};
+		3458B55E1286256EEF418EBE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B34F9C5F71D2C0F71936E412 /* Vitroscribe.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		70BDEC25DD3F03B1D57B2EF9 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				BBFFCA7FBA6BADCAB01576FC /* ContentView.swift */,
+				E7B293F0F48C93F00051799D /* HistoryView.swift */,
+				AC18A3D186C65827441B2024 /* PromptOverlay.swift */,
+				49FDFB2D833A27D86C0D3792 /* RecordingOverlay.swift */,
+				2A8CC6E7F439572B99BECDBF /* SettingsView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		7C5522B03F348B8C185B199E /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				AE8EFC47D042A14771E612C4 /* AudioEngineManager.swift */,
+				1B1103574018FEBE077E026D /* AudioStreamMonitor.swift */,
+				3B7383C4943BBFCEA29F76F5 /* DatabaseManager.swift */,
+				15DC23E45C25C862190E1CE5 /* Logger.swift */,
+				EEACBD12729DFE9EB28E473C /* MeetingDetector.swift */,
+				ED510B3EB0FA8F17525E6CB3 /* StartupManager.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		913B264B34F8B9EBB13707AE = {
+			isa = PBXGroup;
+			children = (
+				3131EFAE53269D1E7D1CBA48 /* Vitroscribe */,
+				3458B55E1286256EEF418EBE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BD683C7DA8C6A777963F4AEA /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				E092A49E74CF95ADE7330568 /* GoogleAuthManager.swift */,
+				74A29B8192D972B9534A9DE9 /* GoogleCalendarService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		C05613A6BB3A799884E33BEA /* App */ = {
+			isa = PBXGroup;
+			children = (
+				C3973C76133B07DA5C539EB5 /* VitroscribeApp.swift */,
+				7C5522B03F348B8C185B199E /* Core */,
+				BD683C7DA8C6A777963F4AEA /* Services */,
+				70BDEC25DD3F03B1D57B2EF9 /* UI */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2942978053A8371331179227 /* Vitroscribe */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 19D603C7CEF34C94BAEB25B4 /* Build configuration list for PBXNativeTarget "Vitroscribe" */;
+			buildPhases = (
+				E03CF1560106F2F22939A201 /* Sources */,
+				9F68E956FD84500FE86294D3 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Vitroscribe;
+			packageProductDependencies = (
+				63BF098A9252301A0E922532 /* SQLite */,
+			);
+			productName = Vitroscribe;
+			productReference = B34F9C5F71D2C0F71936E412 /* Vitroscribe.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C33384FCE8B59920EC9CD383 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					2942978053A8371331179227 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = C80E43881BC2B281230F7968 /* Build configuration list for PBXProject "Vitroscribe" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 913B264B34F8B9EBB13707AE;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				3B84E659C51733505993E0FF /* XCRemoteSwiftPackageReference "SQLite.swift" */,
+			);
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2942978053A8371331179227 /* Vitroscribe */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E03CF1560106F2F22939A201 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FD04C36F1D5E084AE456665 /* AudioEngineManager.swift in Sources */,
+				0E698451E6A9E2F8D6C13483 /* AudioStreamMonitor.swift in Sources */,
+				B927D2909DA6F2AFC0797BA2 /* ContentView.swift in Sources */,
+				BF8F2864DC25E77C59124D84 /* DatabaseManager.swift in Sources */,
+				9CB5D792DB08EE6AD7C8DCAC /* GoogleAuthManager.swift in Sources */,
+				B7ED8BD8FBB4AFA584F760DE /* GoogleCalendarService.swift in Sources */,
+				224CB69528CD5D5B248B97A9 /* HistoryView.swift in Sources */,
+				D1FC06685D29694422C5C207 /* Logger.swift in Sources */,
+				BC847D668C9DD2B28B29FF66 /* MeetingDetector.swift in Sources */,
+				04A384728F8C1ACBB92808FC /* PromptOverlay.swift in Sources */,
+				6D727FABD7213B7E021EAE07 /* RecordingOverlay.swift in Sources */,
+				6E77DD20875400380FAFB48C /* SettingsView.swift in Sources */,
+				16891B0FA223E6E73F33D040 /* StartupManager.swift in Sources */,
+				79429702740C485E808C5954 /* VitroscribeApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		025E01D598C2AA19FF0FD8F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Vitroscribe/Vitroscribe.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Vitroscribe/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.gravitas.Vitroscribe;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		11480D11EA364FD07CBA6092 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Vitroscribe/Vitroscribe.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Vitroscribe/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.gravitas.Vitroscribe;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		16BE9FE3109593066A293F7C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		F39E0548F6042F783C448358 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		19D603C7CEF34C94BAEB25B4 /* Build configuration list for PBXNativeTarget "Vitroscribe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				11480D11EA364FD07CBA6092 /* Debug */,
+				025E01D598C2AA19FF0FD8F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C80E43881BC2B281230F7968 /* Build configuration list for PBXProject "Vitroscribe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16BE9FE3109593066A293F7C /* Debug */,
+				F39E0548F6042F783C448358 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3B84E659C51733505993E0FF /* XCRemoteSwiftPackageReference "SQLite.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stephencelis/SQLite.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.15.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		63BF098A9252301A0E922532 /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B84E659C51733505993E0FF /* XCRemoteSwiftPackageReference "SQLite.swift" */;
+			productName = SQLite;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = C33384FCE8B59920EC9CD383 /* Project object */;
+}

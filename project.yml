@@ -1,0 +1,39 @@
+name: Vitroscribe
+options:
+  bundleIdPrefix: com.gravitas
+  deploymentTarget:
+    macOS: 14.0 # For modern SwiftUI and SwiftData/SQLite
+
+targets:
+  Vitroscribe:
+    type: application
+    platform: macOS
+    sources:
+      - path: Vitroscribe
+    info:
+      path: Vitroscribe/Info.plist
+      properties:
+        CFBundleName: Vitroscribe
+        CFBundleDisplayName: Vitroscribe
+        CFBundleIdentifier: com.gravitas.Vitroscribe
+        CFBundleVersion: "1"
+        CFBundleShortVersionString: "1.0"
+        LSUIElement: true
+        LSMinimumSystemVersion: "14.0"
+        NSMicrophoneUsageDescription: "Vitroscribe requires microphone access to record meetings."
+        NSSpeechRecognitionUsageDescription: "Vitroscribe requires speech recognition to transcribe meetings."
+        NSCalendarsUsageDescription: "Vitroscribe needs calendar access to view scheduled meetings."
+        NSRemindersUsageDescription: "Vitroscribe needs reminder access."
+        NSAppleEventsUsageDescription: "Vitroscribe needs to communicate with your browser to detect meeting URLs."
+    dependencies:
+      - package: SQLite.swift
+        product: SQLite
+    settings:
+      CODE_SIGN_IDENTITY: "-"
+      CODE_SIGN_STYLE: Automatic
+      CODE_SIGN_ENTITLEMENTS: Vitroscribe/Vitroscribe.entitlements
+
+packages:
+  SQLite.swift:
+    url: https://github.com/stephencelis/SQLite.swift.git
+    from: 0.15.3
