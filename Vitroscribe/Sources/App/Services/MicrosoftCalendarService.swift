@@ -14,6 +14,11 @@ struct MicrosoftEvent: Codable {
     let end: MicrosoftEventTime?
     let onlineMeeting: MicrosoftOnlineMeeting?
     let location: MicrosoftLocation?
+    let body: MicrosoftBody?
+    
+    struct MicrosoftBody: Codable {
+        let content: String?
+    }
     
     struct MicrosoftEventTime: Codable {
         let dateTime: String?
@@ -29,7 +34,7 @@ struct MicrosoftEvent: Codable {
     }
     
     enum CodingKeys: String, CodingKey {
-        case id, subject, start, end, onlineMeeting, location, onlineMeetingUrl
+        case id, subject, start, end, onlineMeeting, location, onlineMeetingUrl, body
     }
     
     let onlineMeetingUrl: String?
@@ -38,12 +43,14 @@ struct MicrosoftEvent: Codable {
         let startDate = CalendarEvent.parseMicrosoftDate(start?.dateTime)
         let endDate = CalendarEvent.parseMicrosoftDate(end?.dateTime)
         
+        let joinLink = onlineMeeting?.joinUrl ?? onlineMeetingUrl ?? MeetingLinkExtractor.extract(from: [location?.displayName, body?.content])
+        
         return CalendarEvent(
             id: id,
             summary: subject,
             startDate: startDate,
             endDate: endDate,
-            joinLink: onlineMeeting?.joinUrl ?? onlineMeetingUrl,
+            joinLink: joinLink,
             source: .microsoft
         )
     }
@@ -85,7 +92,7 @@ class MicrosoftCalendarService: ObservableObject {
             guard let token = token else { return }
             
             // Fetch events from now onwards. We use a more compatible format for the filter.
-            let urlString = "https://graph.microsoft.com/v1.0/me/events?$select=id,subject,start,end,onlineMeeting,location,onlineMeetingUrl&$filter=start/dateTime ge '\(self.getCurrentISODate())'&$orderby=start/dateTime&$top=50"
+            let urlString = "https://graph.microsoft.com/v1.0/me/events?$select=id,subject,start,end,onlineMeeting,location,onlineMeetingUrl,body&$filter=start/dateTime ge '\(self.getCurrentISODate())'&$orderby=start/dateTime&$top=50"
             
             guard let url = URL(string: urlString) else { return }
             var request = URLRequest(url: url)

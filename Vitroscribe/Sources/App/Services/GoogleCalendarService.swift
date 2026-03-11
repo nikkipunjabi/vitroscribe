@@ -10,6 +10,8 @@ struct GoogleEventResponse: Codable {
 struct GoogleEvent: Identifiable, Codable {
     let id: String
     let summary: String?
+    let description: String?
+    let location: String?
     let start: EventTime?
     let end: EventTime?
     let hangoutLink: String?
@@ -24,12 +26,14 @@ struct GoogleEvent: Identifiable, Codable {
         let startDate = start?.dateTime != nil ? formatter.date(from: start!.dateTime!) : nil
         let endDate = end?.dateTime != nil ? formatter.date(from: end!.dateTime!) : nil
         
+        let joinLink = hangoutLink ?? MeetingLinkExtractor.extract(from: [location, description])
+        
         return CalendarEvent(
             id: id,
             summary: summary,
             startDate: startDate,
             endDate: endDate,
-            joinLink: hangoutLink,
+            joinLink: joinLink,
             source: .google
         )
     }
@@ -73,8 +77,8 @@ class GoogleCalendarService: ObservableObject {
             let dateFormatter = ISO8601DateFormatter()
             let timeMin = dateFormatter.string(from: Date())
             
-            // Get upcoming 50 events
-            let urlString = "https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=\(timeMin)&maxResults=50&orderBy=startTime&singleEvents=true"
+            // Get upcoming 50 events with specific fields for discovery
+            let urlString = "https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=\(timeMin)&maxResults=50&orderBy=startTime&singleEvents=true&fields=items(id,summary,description,location,start,end,hangoutLink)"
             
             guard let url = URL(string: urlString) else { return }
             var request = URLRequest(url: url)
