@@ -23,6 +23,9 @@ struct SettingsView: View {
                 Toggle("Show Recording Icon on Screen Share", isOn: $audioManager.isOverlayShared)
                     .help("If disabled, the red recording icon will be invisible to others when you share your screen.")
                 
+                Toggle("Show 'Join Meeting' HUD on Screen Share", isOn: $audioManager.isJoinPromptShared)
+                    .help("If disabled, the meeting join prompt will be invisible to others during your screen share.")
+                
                 Divider().padding(.vertical, 5)
                 
                 Text("Google Calendar Integration")

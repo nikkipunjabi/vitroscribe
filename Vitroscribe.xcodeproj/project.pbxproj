@@ -15,6 +15,7 @@
 		6D727FABD7213B7E021EAE07 /* RecordingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FDFB2D833A27D86C0D3792 /* RecordingOverlay.swift */; };
 		6E77DD20875400380FAFB48C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8CC6E7F439572B99BECDBF /* SettingsView.swift */; };
 		6FD04C36F1D5E084AE456665 /* AudioEngineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8EFC47D042A14771E612C4 /* AudioEngineManager.swift */; };
+		72F09D9EB9DCC5C34DE82E54 /* MeetingJoinOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5BEB48608D1CD9BE81A077 /* MeetingJoinOverlay.swift */; };
 		79429702740C485E808C5954 /* VitroscribeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3973C76133B07DA5C539EB5 /* VitroscribeApp.swift */; };
 		9CB5D792DB08EE6AD7C8DCAC /* GoogleAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E092A49E74CF95ADE7330568 /* GoogleAuthManager.swift */; };
 		B7ED8BD8FBB4AFA584F760DE /* GoogleCalendarService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A29B8192D972B9534A9DE9 /* GoogleCalendarService.swift */; };
@@ -32,6 +33,7 @@
 		49FDFB2D833A27D86C0D3792 /* RecordingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingOverlay.swift; sourceTree = "<group>"; };
 		74A29B8192D972B9534A9DE9 /* GoogleCalendarService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleCalendarService.swift; sourceTree = "<group>"; };
 		A6D8FB23DE19DB33044790AA /* Vitroscribe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vitroscribe.entitlements; sourceTree = "<group>"; };
+		AB5BEB48608D1CD9BE81A077 /* MeetingJoinOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingJoinOverlay.swift; sourceTree = "<group>"; };
 		AC18A3D186C65827441B2024 /* PromptOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptOverlay.swift; sourceTree = "<group>"; };
 		AE8EFC47D042A14771E612C4 /* AudioEngineManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEngineManager.swift; sourceTree = "<group>"; };
 		B34F9C5F71D2C0F71936E412 /* Vitroscribe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vitroscribe.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,6 +89,7 @@
 			children = (
 				BBFFCA7FBA6BADCAB01576FC /* ContentView.swift */,
 				E7B293F0F48C93F00051799D /* HistoryView.swift */,
+				AB5BEB48608D1CD9BE81A077 /* MeetingJoinOverlay.swift */,
 				AC18A3D186C65827441B2024 /* PromptOverlay.swift */,
 				49FDFB2D833A27D86C0D3792 /* RecordingOverlay.swift */,
 				2A8CC6E7F439572B99BECDBF /* SettingsView.swift */,
@@ -207,6 +210,7 @@
 				224CB69528CD5D5B248B97A9 /* HistoryView.swift in Sources */,
 				D1FC06685D29694422C5C207 /* Logger.swift in Sources */,
 				BC847D668C9DD2B28B29FF66 /* MeetingDetector.swift in Sources */,
+				72F09D9EB9DCC5C34DE82E54 /* MeetingJoinOverlay.swift in Sources */,
 				04A384728F8C1ACBB92808FC /* PromptOverlay.swift in Sources */,
 				6D727FABD7213B7E021EAE07 /* RecordingOverlay.swift in Sources */,
 				6E77DD20875400380FAFB48C /* SettingsView.swift in Sources */,

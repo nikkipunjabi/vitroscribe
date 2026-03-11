@@ -9,6 +9,7 @@ class MeetingDetector: ObservableObject {
     @Published var isMeetingActive: Bool = false
     @Published var isScreenRecordingAuthorized: Bool = true
     private var checkTimer: Timer?
+    private var isSuppressed: Bool = false
     
     // Performance: Fast polling (2s) for responsive auto-stop, like Krisp/Fathom.
     private var consecutiveHits: Int = 0
@@ -35,6 +36,8 @@ class MeetingDetector: ObservableObject {
     private func checkForActiveMeetings() {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self = self else { return }
+            
+            if self.isSuppressed { return }
             
             // 1. Scan Visible Windows (High Performance)
             let windowOptions = CGWindowListOption(arrayLiteral: .excludeDesktopElements, .optionOnScreenOnly)
@@ -177,10 +180,14 @@ class MeetingDetector: ObservableObject {
         if lower.contains("meet.google.com/") {
             let components = lower.components(separatedBy: "meet.google.com/")
             if components.count > 1 {
-                let path = components[1].split(separator: "?")[0].split(separator: "#")[0]
+                let fullPath = components[1]
+                // Safely extract the meeting ID before any '?' or '#'
+                let pathPart = fullPath.split { $0 == "?" || $0 == "#" }.first ?? ""
+                let path = String(pathPart)
+                
                 // "landing", "home", "check" are NOT active meetings
                 let noise = ["", "landing", "new", "check", "h", "home", "lookup"]
-                return !noise.contains(String(path)) && path.count >= 4
+                return !noise.contains(path) && path.count >= 4
             }
         }
         return lower.contains("zoom.us/j/") || lower.contains("teams.microsoft.com/l/meetup-join") || lower.contains("webex.com/meet")
@@ -188,5 +195,14 @@ class MeetingDetector: ObservableObject {
     
     private func sendRecordingPromptNotification() {
         PromptOverlayManager.shared.show()
+    }
+    
+    func suppressTemporary() {
+        self.isSuppressed = true
+        Logger.shared.log("Meeting detector: Suppressed for 5 minutes.")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 300) {
+            self.isSuppressed = false
+            Logger.shared.log("Meeting detector: Suppression lifted.")
+        }
     }
 }

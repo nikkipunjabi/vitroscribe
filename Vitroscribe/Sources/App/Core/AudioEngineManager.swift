@@ -31,6 +31,13 @@ class AudioEngineManager: NSObject, ObservableObject {
         }
     }
     
+    @Published var isJoinPromptShared: Bool = (UserDefaults.standard.object(forKey: "isJoinPromptShared") as? Bool) ?? true {
+        didSet {
+            UserDefaults.standard.set(isJoinPromptShared, forKey: "isJoinPromptShared")
+            MeetingJoinOverlayManager.shared.updatePrivacySetting()
+        }
+    }
+    
     override private init() {
         super.init()
         checkPermissions()

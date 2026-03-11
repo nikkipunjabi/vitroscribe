@@ -120,22 +120,31 @@ class GoogleCalendarService: ObservableObject {
         for event in events {
             guard let startDate = event.startDate else { continue }
             
-            // 30 seconds before meeting
-            let triggerDate = startDate.addingTimeInterval(-30)
+            // 60 seconds before meeting
+            let triggerDate = startDate.addingTimeInterval(-60)
             let timeInterval = triggerDate.timeIntervalSinceNow
             
             if timeInterval > 0 {
                 let timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false) { [weak self] _ in
-                    self?.sendNotification(for: event)
+                    self?.triggerJoinPrompt(for: event)
                 }
                 notificationTimers[event.id] = timer
             }
         }
     }
     
+    private func triggerJoinPrompt(for event: GoogleEvent) {
+        DispatchQueue.main.async {
+            MeetingJoinOverlayManager.shared.show(for: event)
+        }
+        
+        // Optional: Keep system notification as a backup
+        self.sendNotification(for: event)
+    }
+    
     private func sendNotification(for event: GoogleEvent) {
         let content = UNMutableNotificationContent()
-        content.title = "Meeting starting in 30 seconds"
+        content.title = "Meeting starting in 1 minute"
         content.body = event.summary ?? "Upcoming Meeting"
         content.sound = UNNotificationSound.default
         
