@@ -6,7 +6,7 @@ class MeetingJoinOverlayManager {
     
     private var window: NSPanel?
     
-    func show(for event: GoogleEvent) {
+    func show(for event: CalendarEvent) {
         if window != nil {
             close()
         }
@@ -80,7 +80,7 @@ class MeetingJoinOverlayManager {
 }
 
 struct MeetingJoinPromptView: View {
-    let event: GoogleEvent
+    let event: CalendarEvent
     let onDismiss: () -> Void
     
     @State private var timeRemaining: Int = 10
@@ -126,7 +126,7 @@ struct MeetingJoinPromptView: View {
                 HStack(spacing: 12) {
                     // Option 1: Join & Capture (Key Feature)
                     Button(action: {
-                        if let link = event.hangoutLink, let url = URL(string: link) {
+                        if let link = event.joinLink, let url = URL(string: link) {
                             NSWorkspace.shared.open(url)
                             // Start capturing transcript immediately
                             AudioEngineManager.shared.startRecording(manual: false)
@@ -150,7 +150,7 @@ struct MeetingJoinPromptView: View {
                     
                     // Option 2: Just Join
                     Button(action: {
-                        if let link = event.hangoutLink, let url = URL(string: link) {
+                        if let link = event.joinLink, let url = URL(string: link) {
                             NSWorkspace.shared.open(url)
                             // Suppress auto-detector prompt since user interacted
                             MeetingDetector.shared.suppressTemporary()

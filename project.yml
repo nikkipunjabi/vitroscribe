@@ -24,6 +24,13 @@ targets:
         NSCalendarsUsageDescription: "Vitroscribe needs calendar access to view scheduled meetings."
         NSRemindersUsageDescription: "Vitroscribe needs reminder access."
         NSAppleEventsUsageDescription: "Vitroscribe needs to communicate with your browser to detect meeting URLs."
+        CFBundleURLTypes:
+          - CFBundleURLName: Microsoft Auth
+            CFBundleURLSchemes:
+              - msauth.com.gravitas.Vitroscribe
+          - CFBundleURLName: Google Auth
+            CFBundleURLSchemes:
+              - com.googleusercontent.apps.482650596028-2oajhd8h2qkp66enum04798af8p7ersa
     dependencies:
       - package: SQLite.swift
         product: SQLite

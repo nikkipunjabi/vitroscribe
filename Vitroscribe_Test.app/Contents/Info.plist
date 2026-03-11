@@ -24,6 +24,25 @@
 	<array>
 		<string>MacOSX</string>
 	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>Microsoft Auth</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>msauth.com.gravitas.Vitroscribe</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>Google Auth</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.482650596028-2oajhd8h2qkp66enum04798af8p7ersa</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>DTCompiler</key>

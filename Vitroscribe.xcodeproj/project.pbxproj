@@ -11,9 +11,12 @@
 		0C60F6605434198D366EA73A /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 63BF098A9252301A0E922532 /* SQLite */; };
 		0E698451E6A9E2F8D6C13483 /* AudioStreamMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1103574018FEBE077E026D /* AudioStreamMonitor.swift */; };
 		16891B0FA223E6E73F33D040 /* StartupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED510B3EB0FA8F17525E6CB3 /* StartupManager.swift */; };
+		1F6F15707506CE1E7F679D7F /* MicrosoftAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3446480BD236C01C895342 /* MicrosoftAuthManager.swift */; };
 		224CB69528CD5D5B248B97A9 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B293F0F48C93F00051799D /* HistoryView.swift */; };
+		6828831872ED99558A4AFFFE /* MicrosoftCalendarService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8EAAFD512E15B6FB702260 /* MicrosoftCalendarService.swift */; };
 		6D727FABD7213B7E021EAE07 /* RecordingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FDFB2D833A27D86C0D3792 /* RecordingOverlay.swift */; };
 		6E77DD20875400380FAFB48C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8CC6E7F439572B99BECDBF /* SettingsView.swift */; };
+		6E81776B1CF717A8153727D3 /* CalendarModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8BD4D7EA817D2C70DA757B /* CalendarModels.swift */; };
 		6FD04C36F1D5E084AE456665 /* AudioEngineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8EFC47D042A14771E612C4 /* AudioEngineManager.swift */; };
 		72F09D9EB9DCC5C34DE82E54 /* MeetingJoinOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5BEB48608D1CD9BE81A077 /* MeetingJoinOverlay.swift */; };
 		79429702740C485E808C5954 /* VitroscribeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3973C76133B07DA5C539EB5 /* VitroscribeApp.swift */; };
@@ -26,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E8EAAFD512E15B6FB702260 /* MicrosoftCalendarService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrosoftCalendarService.swift; sourceTree = "<group>"; };
 		15DC23E45C25C862190E1CE5 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		1B1103574018FEBE077E026D /* AudioStreamMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioStreamMonitor.swift; sourceTree = "<group>"; };
 		2A8CC6E7F439572B99BECDBF /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -35,6 +39,7 @@
 		A6D8FB23DE19DB33044790AA /* Vitroscribe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vitroscribe.entitlements; sourceTree = "<group>"; };
 		AB5BEB48608D1CD9BE81A077 /* MeetingJoinOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingJoinOverlay.swift; sourceTree = "<group>"; };
 		AC18A3D186C65827441B2024 /* PromptOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptOverlay.swift; sourceTree = "<group>"; };
+		AD3446480BD236C01C895342 /* MicrosoftAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrosoftAuthManager.swift; sourceTree = "<group>"; };
 		AE8EFC47D042A14771E612C4 /* AudioEngineManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEngineManager.swift; sourceTree = "<group>"; };
 		B34F9C5F71D2C0F71936E412 /* Vitroscribe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vitroscribe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBFFCA7FBA6BADCAB01576FC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -42,6 +47,7 @@
 		C3973C76133B07DA5C539EB5 /* VitroscribeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitroscribeApp.swift; sourceTree = "<group>"; };
 		E092A49E74CF95ADE7330568 /* GoogleAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAuthManager.swift; sourceTree = "<group>"; };
 		E7B293F0F48C93F00051799D /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		EB8BD4D7EA817D2C70DA757B /* CalendarModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModels.swift; sourceTree = "<group>"; };
 		ED510B3EB0FA8F17525E6CB3 /* StartupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupManager.swift; sourceTree = "<group>"; };
 		EEACBD12729DFE9EB28E473C /* MeetingDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingDetector.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -121,8 +127,11 @@
 		BD683C7DA8C6A777963F4AEA /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				EB8BD4D7EA817D2C70DA757B /* CalendarModels.swift */,
 				E092A49E74CF95ADE7330568 /* GoogleAuthManager.swift */,
 				74A29B8192D972B9534A9DE9 /* GoogleCalendarService.swift */,
+				AD3446480BD236C01C895342 /* MicrosoftAuthManager.swift */,
+				0E8EAAFD512E15B6FB702260 /* MicrosoftCalendarService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -203,6 +212,7 @@
 			files = (
 				6FD04C36F1D5E084AE456665 /* AudioEngineManager.swift in Sources */,
 				0E698451E6A9E2F8D6C13483 /* AudioStreamMonitor.swift in Sources */,
+				6E81776B1CF717A8153727D3 /* CalendarModels.swift in Sources */,
 				B927D2909DA6F2AFC0797BA2 /* ContentView.swift in Sources */,
 				BF8F2864DC25E77C59124D84 /* DatabaseManager.swift in Sources */,
 				9CB5D792DB08EE6AD7C8DCAC /* GoogleAuthManager.swift in Sources */,
@@ -211,6 +221,8 @@
 				D1FC06685D29694422C5C207 /* Logger.swift in Sources */,
 				BC847D668C9DD2B28B29FF66 /* MeetingDetector.swift in Sources */,
 				72F09D9EB9DCC5C34DE82E54 /* MeetingJoinOverlay.swift in Sources */,
+				1F6F15707506CE1E7F679D7F /* MicrosoftAuthManager.swift in Sources */,
+				6828831872ED99558A4AFFFE /* MicrosoftCalendarService.swift in Sources */,
 				04A384728F8C1ACBB92808FC /* PromptOverlay.swift in Sources */,
 				6D727FABD7213B7E021EAE07 /* RecordingOverlay.swift in Sources */,
 				6E77DD20875400380FAFB48C /* SettingsView.swift in Sources */,

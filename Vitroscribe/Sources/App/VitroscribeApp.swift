@@ -25,6 +25,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Initialize services so listeners/timers start and notifications register
         _ = MeetingDetector.shared
         _ = GoogleCalendarService.shared
+        _ = MicrosoftCalendarService.shared
     }
 }
 
