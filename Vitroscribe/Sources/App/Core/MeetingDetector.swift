@@ -115,17 +115,21 @@ class MeetingDetector: ObservableObject {
         // 2.5 Alternative Detection: AppleScript URL Check (v12.6)
         if !exactMeetingMatch && isBrowserOpen {
             let browsers = ["Google Chrome", "Arc", "Safari", "Microsoft Edge"]
+            let runningAppNames = NSWorkspace.shared.runningApplications.compactMap { $0.localizedName }
+            
             for browser in browsers {
-                if let urls = getActiveTabURLs(for: browser) {
-                    for url in urls {
-                        if isRealMeetingURL(url) {
-                            Logger.shared.log("URL Detection: Found meeting link in \(browser): \(url)")
-                            meetingFound = true
-                            exactMeetingMatch = true
-                            break
+                if runningAppNames.contains(browser) {
+                    if let urls = getActiveTabURLs(for: browser) {
+                        for url in urls {
+                            if isRealMeetingURL(url) {
+                                Logger.shared.log("URL Detection: Found meeting link in \(browser): \(url)")
+                                meetingFound = true
+                                exactMeetingMatch = true
+                                break
+                            }
                         }
+                        if exactMeetingMatch { break }
                     }
-                    if exactMeetingMatch { break }
                 }
             }
         }
