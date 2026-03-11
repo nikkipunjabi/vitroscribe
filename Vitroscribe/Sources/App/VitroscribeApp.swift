@@ -6,15 +6,14 @@ struct VitroscribeApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var body: some Scene {
-        MenuBarExtra("Vitroscribe", systemImage: "waveform") {
+        WindowGroup {
             ContentView()
-                .frame(width: 800, height: 600)
+                .frame(minWidth: 800, minHeight: 600)
                 .background(VisualEffectView().ignoresSafeArea())
                 .onReceive(AudioEngineManager.shared.$isRecording) { isRecording in
                     RecordingOverlayManager.shared.updateVisibility(isRecording: isRecording)
                 }
         }
-        .menuBarExtraStyle(.window)
     }
 }
 

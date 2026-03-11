@@ -13,7 +13,7 @@ struct HistoryView: View {
     }()
     
     var body: some View {
-        NavigationView {
+        NavigationSplitView {
             VStack {
                 List(sessions, selection: $selectedSessionId) { session in
                     VStack(alignment: .leading, spacing: 4) {
@@ -44,12 +44,8 @@ struct HistoryView: View {
                 .buttonStyle(.plain)
                 .padding()
             }
-            .onChange(of: selectedSessionId) { newValue in
-                if let sessionId = newValue {
-                    loadTranscript(for: sessionId)
-                }
-            }
-            
+            .navigationSplitViewColumnWidth(min: 200, ideal: 250, max: 300)
+        } detail: {
             VStack(alignment: .leading) {
                 if let selectedId = selectedSessionId,
                    let selectedSession = sessions.first(where: { $0.id == selectedId }) {
@@ -97,6 +93,11 @@ struct HistoryView: View {
                 }
             }
             .padding()
+        }
+        .onChange(of: selectedSessionId) { newValue in
+            if let sessionId = newValue {
+                loadTranscript(for: sessionId)
+            }
         }
         .onAppear(perform: loadSessions)
     }

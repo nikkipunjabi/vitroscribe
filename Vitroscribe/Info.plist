@@ -22,8 +22,6 @@
 	<string>1</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>14.0</string>
-	<key>LSUIElement</key>
-	<true/>
 	<key>NSAppleEventsUsageDescription</key>
 	<string>Vitroscribe needs to communicate with your browser to detect meeting URLs.</string>
 	<key>NSCalendarsUsageDescription</key>

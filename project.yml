@@ -18,7 +18,6 @@ targets:
         CFBundleIdentifier: com.gravitas.Vitroscribe
         CFBundleVersion: "1"
         CFBundleShortVersionString: "1.0"
-        LSUIElement: true
         LSMinimumSystemVersion: "14.0"
         NSMicrophoneUsageDescription: "Vitroscribe requires microphone access to record meetings."
         NSSpeechRecognitionUsageDescription: "Vitroscribe requires speech recognition to transcribe meetings."
