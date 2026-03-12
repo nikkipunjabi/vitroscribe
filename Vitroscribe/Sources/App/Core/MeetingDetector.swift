@@ -50,6 +50,7 @@ class MeetingDetector: ObservableObject {
             var meetingFound = false
             var exactMeetingMatch = false
             var isBrowserOpen = false
+            var detectedTitle: String? = nil
             
             let browsers = ["google chrome", "arc", "safari", "microsoft edge"]
             
@@ -81,6 +82,7 @@ class MeetingDetector: ObservableObject {
                 if isZoom || isTeams || isOthers || isMeet {
                     meetingFound = true
                     exactMeetingMatch = true
+                    detectedTitle = windowName
                     break
                 }
             }
@@ -116,11 +118,11 @@ class MeetingDetector: ObservableObject {
                     self.consecutiveMisses = 0
                     self.consecutiveHits += 1
                     
-                    if self.consecutiveHits >= self.hitsRequiredToStart && !self.isMeetingActive && !audioManager.isRecording {
-                        self.isMeetingActive = true
-                        Logger.shared.log("Auto-Detect: Meeting context found. Prompting user.")
-                        self.sendRecordingPromptNotification()
-                    }
+                        if self.consecutiveHits >= self.hitsRequiredToStart && !self.isMeetingActive && !audioManager.isRecording {
+                            self.isMeetingActive = true
+                            Logger.shared.log("Auto-Detect: Meeting context found. Prompting user.")
+                            self.sendRecordingPromptNotification(title: detectedTitle)
+                        }
                 } else {
                     self.consecutiveHits = 0
                     
@@ -193,8 +195,8 @@ class MeetingDetector: ObservableObject {
         return lower.contains("zoom.us/j/") || lower.contains("teams.microsoft.com/l/meetup-join") || lower.contains("webex.com/meet")
     }
     
-    private func sendRecordingPromptNotification() {
-        PromptOverlayManager.shared.show()
+    private func sendRecordingPromptNotification(title: String? = nil) {
+        PromptOverlayManager.shared.show(title: title)
     }
     
     func suppressTemporary() {

@@ -129,7 +129,12 @@ struct MeetingJoinPromptView: View {
                         if let link = event.joinLink, let url = URL(string: link) {
                             NSWorkspace.shared.open(url)
                             // Start capturing transcript immediately
-                            AudioEngineManager.shared.startRecording(manual: false)
+                            AudioEngineManager.shared.startRecording(
+                                manual: false,
+                                title: event.summary,
+                                startTime: event.startDate,
+                                endTime: event.endDate
+                            )
                             // Suppress auto-detector for a while since we manually handled it
                             MeetingDetector.shared.suppressTemporary()
                         }

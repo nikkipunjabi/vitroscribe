@@ -23,6 +23,11 @@ class AudioEngineManager: NSObject, ObservableObject {
     private var sessionStartTime: Date?
     private var currentTaskStartTime: Date?
     private var syncTimer: Timer?
+    
+    private var currentMeetingTitle: String?
+    private var currentMeetingStartTime: Date?
+    private var currentMeetingEndTime: Date?
+    
     @Published var activeSpeech: String = ""
     @Published var isOverlayShared: Bool = UserDefaults.standard.bool(forKey: "isOverlayShared") {
         didSet {
@@ -68,7 +73,7 @@ class AudioEngineManager: NSObject, ObservableObject {
         }
     }
     
-    func startRecording(manual: Bool = false) {
+    func startRecording(manual: Bool = false, title: String? = nil, startTime: Date? = nil, endTime: Date? = nil) {
         guard !isRecording else { return }
         guard isAuthorized else {
             Logger.shared.log("Cannot start recording, not authorized.")
@@ -83,6 +88,9 @@ class AudioEngineManager: NSObject, ObservableObject {
         activeSpeech = ""
         isRecording = true
         self.isManualRecording = manual
+        self.currentMeetingTitle = title
+        self.currentMeetingStartTime = startTime
+        self.currentMeetingEndTime = endTime
         
         // 5-second database heartbeat (v11.2)
         syncTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] _ in
@@ -185,7 +193,13 @@ class AudioEngineManager: NSObject, ObservableObject {
     private func syncLedgerToDatabase() {
         let text = reconstructFromLedger()
         if !text.isEmpty {
-            DatabaseManager.shared.saveOrUpdateSession(sessionId: currentSessionId, text: text)
+            DatabaseManager.shared.saveOrUpdateSession(
+                sessionId: currentSessionId,
+                text: text,
+                title: currentMeetingTitle,
+                startTime: currentMeetingStartTime,
+                endTime: currentMeetingEndTime
+            )
         }
     }
     

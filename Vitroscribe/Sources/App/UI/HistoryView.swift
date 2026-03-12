@@ -9,9 +9,19 @@ struct HistoryView: View {
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter
+    }()
+    
+    private let timeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .none
         formatter.timeStyle = .short
         return formatter
     }()
+    
+    @State private var isEditingTitle = false
+    @State private var newTitle = ""
     
     var body: some View {
         HStack(spacing: 0) {
@@ -20,15 +30,35 @@ struct HistoryView: View {
                 VStack(spacing: 0) {
                     List(sessions, selection: $selectedSessionId) { session in
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(dateFormatter.string(from: session.createdAt))
+                            Text(session.title ?? dateFormatter.string(from: session.createdAt))
                                 .font(.headline)
-                            Text("Session: \(session.id.prefix(8))...")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
+                                .lineLimit(1)
+                            
+                            HStack {
+                                if let start = session.plannedStartTime, let end = session.plannedEndTime {
+                                    Text("\(timeFormatter.string(from: start)) - \(timeFormatter.string(from: end))")
+                                } else {
+                                    Text(timeFormatter.string(from: session.createdAt))
+                                }
+                                
+                                Text("•")
+                                
+                                Text(dateFormatter.string(from: session.createdAt))
+                            }
+                            .font(.caption)
+                            .foregroundColor(.secondary)
                         }
                         .padding(.vertical, 4)
                         .tag(session.id)
                         .contextMenu {
+                            Button {
+                                startRenaming(session)
+                            } label: {
+                                Label("Rename", systemImage: "pencil")
+                            }
+                            
+                            Divider()
+                            
                             Button(role: .destructive) {
                                 deleteSession(session.id)
                             } label: {
@@ -67,30 +97,76 @@ struct HistoryView: View {
             VStack(alignment: .leading) {
                 if let selectedId = selectedSessionId,
                    let selectedSession = sessions.first(where: { $0.id == selectedId }) {
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text("Transcript Details")
+                    HStack(alignment: .top) {
+                        VStack(alignment: .leading, spacing: 6) {
+                            // Primary Editable Headline: Title or Date
+                            HStack(spacing: 8) {
+                                Text(selectedSession.title ?? "\(dateFormatter.string(from: selectedSession.createdAt)) \(timeFormatter.string(from: selectedSession.createdAt))")
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                
+                                Button(action: { startRenaming(selectedSession) }) {
+                                    Image(systemName: "pencil.circle.fill")
+                                        .font(.title3)
+                                        .foregroundColor(.secondary.opacity(0.8))
+                                }
+                                .buttonStyle(.plain)
+                                .popover(isPresented: $isEditingTitle) {
+                                    VStack(alignment: .leading, spacing: 12) {
+                                        Text("Rename Session")
+                                            .font(.headline)
+                                        TextField("Enter new title", text: $newTitle)
+                                            .textFieldStyle(.roundedBorder)
+                                            .frame(width: 200)
+                                        
+                                        HStack {
+                                            Button("Cancel") { isEditingTitle = false }
+                                            Spacer()
+                                            Button("Save") {
+                                                saveNewTitle(for: selectedId)
+                                            }
+                                            .buttonStyle(.borderedProminent)
+                                        }
+                                    }
+                                    .padding()
+                                }
+                            }
+                            
+                            // Static Label
+                            Text("Meeting Transcript")
                                 .font(.headline)
-                            Text(dateFormatter.string(from: selectedSession.createdAt))
-                                .font(.caption)
                                 .foregroundColor(.secondary)
+                            
+                            // Always show session date/time context
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("\(dateFormatter.string(from: selectedSession.createdAt)) at \(timeFormatter.string(from: selectedSession.createdAt))")
+                                
+                                if let start = selectedSession.plannedStartTime, let end = selectedSession.plannedEndTime {
+                                    Text("\(timeFormatter.string(from: start)) - \(timeFormatter.string(from: end))")
+                                        .foregroundColor(.blue.opacity(0.8))
+                                }
+                            }
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
                         }
                         Spacer()
                         
-                        Button(role: .destructive, action: {
-                            deleteSession(selectedId)
-                        }) {
-                            Label("Delete", systemImage: "trash")
+                        HStack {
+                            Button(role: .destructive, action: {
+                                deleteSession(selectedId)
+                            }) {
+                                Label("Delete", systemImage: "trash")
+                            }
+                            .buttonStyle(.bordered)
+                            .tint(.red)
+                            
+                            Button(action: copyToClipboard) {
+                                Label("Copy", systemImage: "doc.on.doc")
+                            }
+                            .buttonStyle(.bordered)
                         }
-                        .buttonStyle(.bordered)
-                        .tint(.red)
-                        
-                        Button(action: copyToClipboard) {
-                            Label("Copy", systemImage: "doc.on.doc")
-                        }
-                        .buttonStyle(.bordered)
                     }
-                    .padding(.bottom, 10)
+                    .padding(.bottom, 15)
                     
                     ScrollView {
                         Text(currentTranscriptText)
@@ -162,6 +238,17 @@ struct HistoryView: View {
         DatabaseManager.shared.deleteAllSessions()
         selectedSessionId = nil
         currentTranscriptText = ""
+        loadSessions()
+    }
+    
+    private func startRenaming(_ session: DatabaseManager.SessionMetadata) {
+        newTitle = session.title ?? dateFormatter.string(from: session.createdAt)
+        isEditingTitle = true
+    }
+    
+    private func saveNewTitle(for sessionId: String) {
+        DatabaseManager.shared.updateSessionTitle(sessionId: sessionId, newTitle: newTitle)
+        isEditingTitle = false
         loadSessions()
     }
 }

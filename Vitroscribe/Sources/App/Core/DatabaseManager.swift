@@ -15,6 +15,9 @@ class DatabaseManager {
     private let createdAt = Expression<Double>("createdAt")
     private let text = Expression<String>("text")
     private let speaker = Expression<String?>("speaker")
+    private let title = Expression<String?>("title")
+    private let plannedStartTime = Expression<Double?>("plannedStartTime")
+    private let plannedEndTime = Expression<Double?>("plannedEndTime")
     
     private init() {
         setupDatabase()
@@ -75,16 +78,25 @@ class DatabaseManager {
                 Logger.shared.log("Database migrated to version 12.")
             }
             
+            if currentVersion < 13 {
+                // Version 13: Add title, plannedStartTime, plannedEndTime
+                try db?.run(transcriptsTable.addColumn(title))
+                try db?.run(transcriptsTable.addColumn(plannedStartTime))
+                try db?.run(transcriptsTable.addColumn(plannedEndTime))
+                
+                try db?.run("PRAGMA user_version = 13")
+                Logger.shared.log("Database migrated to version 13.")
+            }
+            
             Logger.shared.log("Database initialized at \(dbURL.path)")
         } catch {
             Logger.shared.log("Failed to initialize database: \(error.localizedDescription)")
         }
     }
     
-    func saveOrUpdateSession(sessionId: String, text: String, speaker: String? = nil) {
+    func saveOrUpdateSession(sessionId: String, text: String, speaker: String? = nil, title: String? = nil, startTime: Date? = nil, endTime: Date? = nil) {
         guard let db = db else { return }
         do {
-            // Use a proper UPSERT-like logic to preserve createdAt
             let existing = transcriptsTable.filter(self.sessionId == sessionId)
             if try db.scalar(existing.count) > 0 {
                 // Update
@@ -101,7 +113,10 @@ class DatabaseManager {
                     self.timestamp <- now,
                     self.createdAt <- now,
                     self.text <- text,
-                    self.speaker <- speaker
+                    self.speaker <- speaker,
+                    self.title <- title,
+                    self.plannedStartTime <- startTime?.timeIntervalSince1970,
+                    self.plannedEndTime <- endTime?.timeIntervalSince1970
                 ))
             }
         } catch {
@@ -112,6 +127,9 @@ class DatabaseManager {
     struct SessionMetadata: Identifiable, Hashable {
         let id: String
         let createdAt: Date
+        var title: String?
+        let plannedStartTime: Date?
+        let plannedEndTime: Date?
     }
     
     func getAllSessionsMetadata() -> [SessionMetadata] {
@@ -119,14 +137,22 @@ class DatabaseManager {
         var sessions: [SessionMetadata] = []
         do {
             // Sort by createdAt descending
-            let query = transcriptsTable.select(sessionId, createdAt).order(createdAt.desc)
+            let query = transcriptsTable.select(sessionId, createdAt, title, plannedStartTime, plannedEndTime).order(createdAt.desc)
             for row in try db.prepare(query) {
                 let idValue = row[sessionId]
                 let createdDate = Date(timeIntervalSince1970: row[createdAt])
+                let titleValue = row[title]
+                let startValue = row[plannedStartTime].map { Date(timeIntervalSince1970: $0) }
+                let endValue = row[plannedEndTime].map { Date(timeIntervalSince1970: $0) }
                 
-                // Deduplicate by sessionId in memory if the DB somehow has dupes (integrity belt-and-suspenders)
                 if !sessions.contains(where: { $0.id == idValue }) {
-                    sessions.append(SessionMetadata(id: idValue, createdAt: createdDate))
+                    sessions.append(SessionMetadata(
+                        id: idValue,
+                        createdAt: createdDate,
+                        title: titleValue,
+                        plannedStartTime: startValue,
+                        plannedEndTime: endValue
+                    ))
                 }
             }
         } catch {
@@ -137,6 +163,17 @@ class DatabaseManager {
     
     func getAllSessions() -> [String] {
         return getAllSessionsMetadata().map { $0.id }
+    }
+    
+    func updateSessionTitle(sessionId: String, newTitle: String) {
+        guard let db = db else { return }
+        do {
+            let session = transcriptsTable.filter(self.sessionId == sessionId)
+            try db.run(session.update(title <- newTitle))
+            Logger.shared.log("Updated session title: \(sessionId) -> \(newTitle)")
+        } catch {
+            Logger.shared.log("Failed to update session title: \(error.localizedDescription)")
+        }
     }
     
     func getTranscript(for sessionId: String) -> String {

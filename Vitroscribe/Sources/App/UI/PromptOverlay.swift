@@ -28,12 +28,13 @@ class PromptOverlayWindow: NSPanel {
             self.setFrameOrigin(NSPoint(x: x, y: y))
         }
         
-        self.contentView = NSHostingView(rootView: PromptOverlayView())
+        self.contentView = NSHostingView(rootView: PromptOverlayView(detectedTitle: PromptOverlayManager.shared.detectedTitle))
     }
 }
 
 struct PromptOverlayView: View {
     @ObservedObject var promptManager = PromptOverlayManager.shared
+    let detectedTitle: String?
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -68,7 +69,7 @@ struct PromptOverlayView: View {
                 
                 Button("Yes, Start") {
                     promptManager.hide()
-                    AudioEngineManager.shared.startRecording(manual: false)
+                    AudioEngineManager.shared.startRecording(manual: false, title: detectedTitle)
                     Logger.shared.log("User accepted recording from overlay.")
                 }
                 .buttonStyle(.borderedProminent)
@@ -96,8 +97,10 @@ struct PromptOverlayView: View {
 class PromptOverlayManager: ObservableObject {
     static let shared = PromptOverlayManager()
     private var window: PromptOverlayWindow?
+    var detectedTitle: String?
     
-    func show() {
+    func show(title: String? = nil) {
+        self.detectedTitle = title
         DispatchQueue.main.async {
             if self.window == nil {
                 self.window = PromptOverlayWindow()
