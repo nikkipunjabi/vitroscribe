@@ -83,7 +83,7 @@ struct MeetingJoinPromptView: View {
     let event: CalendarEvent
     let onDismiss: () -> Void
     
-    @State private var timeRemaining: Int = 10
+    @State private var timeRemaining: Int = 15
     @State private var progress: Double = 1.0
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -121,6 +121,15 @@ struct MeetingJoinPromptView: View {
                     }
                     
                     Spacer()
+                    
+                    Button(action: onDismiss) {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(.secondary.opacity(0.5))
+                            .font(.system(size: 22))
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.top, -10) // Align better with header
+                    .padding(.trailing, -5)
                 }
                 
                 HStack(spacing: 12) {
@@ -214,7 +223,7 @@ struct MeetingJoinPromptView: View {
             if timeRemaining > 0 {
                 timeRemaining -= 1
                 withAnimation {
-                    progress = Double(timeRemaining) / 10.0
+                    progress = Double(timeRemaining) / 15.0
                 }
             } else {
                 onDismiss()

@@ -5,7 +5,7 @@
 ## ✨ Key Features
 
 *   **⚡️ Smart Meeting Link Discovery**: Never search for a link again. Vitroscribe scans **descriptions, locations, and bodies** of your calendar events to find Google Meet, Zoom, and Teams links, even if they aren't in the primary "location" field.
-*   **🚀 Meeting Join HUD**: One minute before scheduled meetings, a premium floating notification appears with a 10-second countdown. Use the **"Join & Capture"** button to open your call and start the transcript in a single action.
+*   **🚀 Meeting Join HUD**: One minute before scheduled meetings, a premium floating notification appears with a 15-second countdown. Use the **"Join & Capture"** button to open your call and start the transcript in a single action.
 *   **🤖 Context-Aware Ad-hoc Tracking**: For unplanned Zoom or Slack calls, Vitroscribe automatically captures the **Meeting Window Title** (e.g., "Project Sync (Zoom)") to label your transcriptions instantly.
 *   **📂 Intelligent History & Renaming**: Transcripts are stored with rich metadata—**Meeting Title**, **Date**, and **Start/End Times**. You can rename any session in the history view for personalized organization.
 *   **📅 Dual-Calendar Sync**: Natively integrates with **Google Calendar** and **Microsoft Outlook / Office 365** (secure PKCE flow). It fetches up to 50 upcoming events to keep your dashboard full.
