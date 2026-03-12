@@ -1,53 +1,48 @@
 # 🎙️ Vitroscribe
 
-**Vitroscribe** is an autonomous, privacy-first macOS application that automatically detects when you join online meetings, records the audio, and transcribes the dialogue directly on your device.
-
-Designed for absolute friction-less utility, Vitroscribe quietly monitors your system and handles the start/stop logic for your transcriptions completely invisibly.
+**Vitroscribe** is an autonomous, privacy-first macOS application that automatically detects when you join online meetings, records the audio, and transcribes the dialogue directly on your device. It streamlines your workflow by syncing calendars, discovering meeting links, and organizing history with intelligent metadata.
 
 ## ✨ Key Features
 
-* **🚀 Meeting Join HUD**: One minute before your scheduled meetings, a creative floating notification appears with a 10-second countdown. Join your call and start capturing the transcript with a single click via the **"Join & Capture"** button.
-* **🤖 True Zero-Click Auto-Detection**: Uses advanced heuristic window scanning and browser URL scraping to identify exactly when you join and leave a meeting.
-* **📅 Dual-Calendar Integration**: Natively syncs with **Google Calendar** and **Microsoft Outlook / Office 365**. Connect both or either to ensure every Teams, Meet, or Zoom invite is tracked.
-* **🔄 Instant Sync Matrix**: A dedicated "Sync Now" control in settings allows you to instantly refresh your meeting ledger across all connected platforms.
-* **🌐 Broad Platform Support**: Natively detects and wraps around **Google Meet**, **Zoom**, **Microsoft Teams**, **Cisco Webex**, and **Slack Huddles**.
-* **🔒 100% On-Device Privacy**: Transcriptions are processed entirely locally on your Mac using Apple's `SFSpeechRecognizer` framework. No audio data is ever sent to the cloud.
-* **⏱ Infinite Timeline Matrix**: Implements a custom absolute-millisecond timestamp ledger that stitches overlapping audio buffers together, guaranteeing zero dropped words.
-* **🎨 Premium Centered UI**: A modern, clean interface with stable, centered navigation tabs (**Live**, **History**, **Settings**) and a smooth, spring-animated History sidebar.
-* **🥷 Privacy Controls**: Toggle settings to hide the recording overlay or the meeting join HUD during screen shares, ensuring your desktop looks professional and clean for others.
+*   **⚡️ Smart Meeting Link Discovery**: Never search for a link again. Vitroscribe scans **descriptions, locations, and bodies** of your calendar events to find Google Meet, Zoom, and Teams links, even if they aren't in the primary "location" field.
+*   **🚀 Meeting Join HUD**: One minute before scheduled meetings, a premium floating notification appears with a 10-second countdown. Use the **"Join & Capture"** button to open your call and start the transcript in a single action.
+*   **🤖 Context-Aware Ad-hoc Tracking**: For unplanned Zoom or Slack calls, Vitroscribe automatically captures the **Meeting Window Title** (e.g., "Project Sync (Zoom)") to label your transcriptions instantly.
+*   **📂 Intelligent History & Renaming**: Transcripts are stored with rich metadata—**Meeting Title**, **Date**, and **Start/End Times**. You can rename any session in the history view for personalized organization.
+*   **📅 Dual-Calendar Sync**: Natively integrates with **Google Calendar** and **Microsoft Outlook / Office 365** (secure PKCE flow). It fetches up to 50 upcoming events to keep your dashboard full.
+*   **🔄 Instant Sync Matrix**: A dedicated "Sync Now" button in settings allows you to force a refresh across all connected platforms.
+*   **🔒 100% On-Device Privacy**: Transcriptions are processed entirely locally on your Mac using Apple's `SFSpeechRecognizer`. No audio or text data is ever sent to the cloud.
+*   **🎨 Premium macOS Identity**: Featuring a customized **translucent glass icon** with a dynamic soundwave and pen-tip branding, designed to look stunning in your Dock.
+*   **⏱ Infinite Timeline Matrix**: Uses an absolute-millisecond ledger to stitch audio buffers perfectly, ensuring zero word-loss during network stutters or context switches.
 
 ## 🛠️ Technology Stack
 
-* **SwiftUI** - Modern declarative UI with custom spring animations.
-* **OAuth2 / MS Graph / Google API** - Secure, PKCE-based authentication for calendar synchronization.
-* **NavigationStack & Sidebar Architecture** - Fluid, seamless transitions and layout stability.
-* **AVAudioEngine & SFSpeech** - Low-latency audio capture and ML transcription.
-* **CoreAudio C-APIs** - Low-level hardware microphone flow monitoring.
-* **SQLite.swift** - Local data persistence for historical meeting sessions.
-* **osascript / CGWindowList** - Active process and browser DOM inspection via thread-safe processes.
+*   **SwiftUI** - Modern declarative UI with custom spring animations and sidebar transitions.
+*   **OAuth2 PKCE (MS Graph & Google API)** - Secure, client-side authentication for calendar integration.
+*   **AVAudioEngine & SFSpeech** - High-performance local audio capture and Apple-native ML transcription.
+*   **SQLite.swift** - Robust local persistence with automated schema migrations (v13+).
+*   **CGWindowList & osascript** - Multi-threaded process and window inspection for real-time meeting detection.
 
 ## ⚙️ How it Works
 
-1. **The Watcher:** A lightweight background thread polls your active windows and hardware microphone state every 2 seconds for high responsiveness.
-2. **The HUD:** If a meeting is detected or scheduled via Google or Microsoft calendars, Vitroscribe prompts you to join. Choosing "Join & Capture" instantly opens your meeting and readies the transcription.
-3. **The Matrix Stitcher:** As you speak, Apple's Speech Recognition streams partial text. Vitroscribe injects these into a time-based ledger. Every 2 seconds of silence, it automatically breaks the text into clean paragraphs.
-4. **The Stop:** The moment the meeting context is lost (window closed or URL left), Vitroscribe guarantees a final transcript commit and shuts down instantly to preserve RAM.
+1.  **The Detector:** Lightweight threads poll your active windows and hardware state every 2 seconds to spot active calls without impacting battery life.
+2.  **The Scribe:** When a meeting starts, audio is streamed into an absolute-timeline ledger. Vitroscribe automatically breaks dialogue into paragraphs based on natural speech pauses (>2s).
+3.  **The History Vault:** Sessions are stored with their capture date and meeting title. The sidebar removes technical IDs in favor of a clean, chronological `Time • Date` layout.
+4.  **The Stop:** Once the meeting window or URL is closed, the app commits a final save and shuts down the engine instantly.
 
 ## 🚀 Getting Started
 
 1. Clone the repository.
 2. Generate the project via XcodeGen:
-   ```bash
-   xcodegen
-   ```
+    ```bash
+    xcodegen
+    ```
 3. Open `Vitroscribe.xcodeproj`.
-4. Ensure your Mac's target is set to **macOS 14.0+**.
-5. Build and run!
+4. Build and run (requires macOS 14.0+).
 
-### 🎙️ Audio setup Note
-Vitroscribe by default uses your **System Default Input Device**. 
-* **For standard use**: It will work perfectly with your built-in microphone or headset.
-* **To capture meeting audio (others speaking)**: It is recommended to use [BlackHole 2ch](https://existential.audio/blackhole/) or a similar loopback driver. Route your meeting output to BlackHole and set BlackHole as your system input. This allows Vitroscribe to "hear" both you and the other participants.
+### 🎙️ Audio Setup Note
+Vitroscribe uses your **System Default Input Device**.
+*   **Standard Use**: Capture your own voice via the built-in microphone or headset.
+*   **Full Meeting Capture**: To capture others speaking, use a loopback driver like [BlackHole 2ch](https://existential.audio/blackhole/). Route your meeting output to BlackHole and set BlackHole as your system input.
 
 ## 📜 License
 [Insert License Here]
