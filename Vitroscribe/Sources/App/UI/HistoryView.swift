@@ -23,47 +23,113 @@ struct HistoryView: View {
     @State private var isEditingTitle = false
     @State private var newTitle = ""
     
+    // Search and Pagination
+    @State private var searchText = ""
+    @State private var filterDate: Date? = nil
+    @State private var hasMoreSessions = true
+    private let pageSize = 20
+    @State private var isShowingDatePicker = false
+    
     var body: some View {
         HStack(spacing: 0) {
             // MARK: - Sidebar
             if isSidebarVisible {
                 VStack(spacing: 0) {
-                    List(sessions, selection: $selectedSessionId) { session in
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(session.title ?? dateFormatter.string(from: session.createdAt))
-                                .font(.headline)
-                                .lineLimit(1)
-                            
-                            HStack {
-                                if let start = session.plannedStartTime, let end = session.plannedEndTime {
-                                    Text("\(timeFormatter.string(from: start)) - \(timeFormatter.string(from: end))")
-                                } else {
-                                    Text(timeFormatter.string(from: session.createdAt))
+                    // Search Bar
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(.secondary)
+                        TextField("Search transcripts...", text: $searchText)
+                            .textFieldStyle(.plain)
+                        
+                        if !searchText.isEmpty {
+                            Button(action: { searchText = "" }) {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundColor(.secondary)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                        
+                        Button(action: { isShowingDatePicker.toggle() }) {
+                            Image(systemName: filterDate == nil ? "calendar" : "calendar.badge.minus")
+                                .foregroundColor(filterDate == nil ? .secondary : .blue)
+                        }
+                        .buttonStyle(.plain)
+                        .popover(isPresented: $isShowingDatePicker) {
+                            VStack {
+                                DatePicker("Filter by Date", selection: Binding(
+                                    get: { filterDate ?? Date() },
+                                    set: { filterDate = $0; isShowingDatePicker = false }
+                                ), displayedComponents: .date)
+                                .datePickerStyle(.graphical)
+                                .padding()
+                                
+                                if filterDate != nil {
+                                    Button("Clear Date Filter") {
+                                        filterDate = nil
+                                        isShowingDatePicker = false
+                                    }
+                                    .padding(.bottom)
+                                }
+                            }
+                        }
+                    }
+                    .padding(8)
+                    .background(Color.secondary.opacity(0.1))
+                    .cornerRadius(8)
+                    .padding(.horizontal)
+                    .padding(.top, 8)
+                    .padding(.bottom, 4)
+                    
+                    List(selection: $selectedSessionId) {
+                        ForEach(sessions) { session in
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(session.title ?? dateFormatter.string(from: session.createdAt))
+                                    .font(.headline)
+                                    .lineLimit(1)
+                                
+                                HStack {
+                                    if let start = session.plannedStartTime, let end = session.plannedEndTime {
+                                        Text("\(timeFormatter.string(from: start)) - \(timeFormatter.string(from: end))")
+                                    } else {
+                                        Text(timeFormatter.string(from: session.createdAt))
+                                    }
+                                    
+                                    Text("•")
+                                    
+                                    Text(dateFormatter.string(from: session.createdAt))
+                                }
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            }
+                            .padding(.vertical, 4)
+                            .tag(session.id)
+                            .contextMenu {
+                                Button {
+                                    startRenaming(session)
+                                } label: {
+                                    Label("Rename", systemImage: "pencil")
                                 }
                                 
-                                Text("•")
+                                Divider()
                                 
-                                Text(dateFormatter.string(from: session.createdAt))
+                                Button(role: .destructive) {
+                                    deleteSession(session.id)
+                                } label: {
+                                    Label("Delete Session", systemImage: "trash")
+                                }
                             }
-                            .font(.caption)
-                            .foregroundColor(.secondary)
                         }
-                        .padding(.vertical, 4)
-                        .tag(session.id)
-                        .contextMenu {
-                            Button {
-                                startRenaming(session)
-                            } label: {
-                                Label("Rename", systemImage: "pencil")
+                        
+                        if hasMoreSessions && !sessions.isEmpty {
+                            Button(action: loadMoreSessions) {
+                                Text("Load More")
+                                    .font(.subheadline)
+                                    .foregroundColor(.blue)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 8)
                             }
-                            
-                            Divider()
-                            
-                            Button(role: .destructive) {
-                                deleteSession(session.id)
-                            } label: {
-                                Label("Delete Session", systemImage: "trash")
-                            }
+                            .buttonStyle(.plain)
                         }
                     }
                     .listStyle(.sidebar)
@@ -169,7 +235,7 @@ struct HistoryView: View {
                     .padding(.bottom, 15)
                     
                     ScrollView {
-                        Text(currentTranscriptText)
+                        Text(highlightedTranscript)
                             .padding()
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .background(Color.black.opacity(0.05))
@@ -208,11 +274,62 @@ struct HistoryView: View {
                 loadTranscript(for: sessionId)
             }
         }
-        .onAppear(perform: loadSessions)
+        .onChange(of: searchText) { _ in
+            refreshSessions()
+        }
+        .onChange(of: filterDate) { _ in
+            refreshSessions()
+        }
+        .onAppear(perform: refreshSessions)
+    }
+    
+    private func refreshSessions() {
+        sessions = DatabaseManager.shared.getSessionsMetadata(
+            limit: pageSize,
+            offset: 0,
+            searchText: searchText,
+            filterDate: filterDate
+        )
+        hasMoreSessions = sessions.count >= pageSize
+    }
+    
+    private func loadMoreSessions() {
+        let newSessions = DatabaseManager.shared.getSessionsMetadata(
+            limit: pageSize,
+            offset: sessions.count,
+            searchText: searchText,
+            filterDate: filterDate
+        )
+        sessions.append(contentsOf: newSessions)
+        hasMoreSessions = newSessions.count >= pageSize
     }
     
     private func loadSessions() {
-        sessions = DatabaseManager.shared.getAllSessionsMetadata()
+        refreshSessions()
+    }
+    
+    private var highlightedTranscript: AttributedString {
+        let text = currentTranscriptText
+        var attributedString = AttributedString(text)
+        
+        let search = searchText.trimmingCharacters(in: .whitespaces)
+        guard !search.isEmpty else { return attributedString }
+        
+        var start = text.startIndex
+        while start < text.endIndex {
+            if let range = text.range(of: search, options: .caseInsensitive, range: start..<text.endIndex) {
+                if let attrRange = Range(range, in: attributedString) {
+                    attributedString[attrRange].backgroundColor = .yellow
+                    attributedString[attrRange].foregroundColor = .black
+                    attributedString[attrRange].font = .system(size: 14, weight: .bold)
+                }
+                start = range.upperBound
+            } else {
+                break
+            }
+        }
+        
+        return attributedString
     }
     
     private func loadTranscript(for sessionId: String) {

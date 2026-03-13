@@ -132,7 +132,7 @@ class DatabaseManager {
         let plannedEndTime: Date?
     }
     
-    func getSessionsMetadata(limit: Int? = nil, offset: Int = 0, searchText: String? = nil) -> [SessionMetadata] {
+    func getSessionsMetadata(limit: Int? = nil, offset: Int = 0, searchText: String? = nil, filterDate: Date? = nil) -> [SessionMetadata] {
         guard let db = db else { return [] }
         var sessions: [SessionMetadata] = []
         do {
@@ -141,6 +141,13 @@ class DatabaseManager {
             if let search = searchText, !search.isEmpty {
                 let searchPattern = "%\(search)%"
                 query = query.filter(title.like(searchPattern) || text.like(searchPattern))
+            }
+            
+            if let date = filterDate {
+                let calendar = Calendar.current
+                let startOfDay = calendar.startOfDay(for: date).timeIntervalSince1970
+                let endOfDay = calendar.date(byAdding: .day, value: 1, to: calendar.startOfDay(for: date))?.timeIntervalSince1970 ?? (startOfDay + 86400)
+                query = query.filter(createdAt >= startOfDay && createdAt < endOfDay)
             }
             
             query = query.order(createdAt.desc)

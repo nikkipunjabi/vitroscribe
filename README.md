@@ -7,7 +7,11 @@
 *   **⚡️ Smart Meeting Link Discovery**: Never search for a link again. Vitroscribe scans **descriptions, locations, and bodies** of your calendar events to find Google Meet, Zoom, and Teams links, even if they aren't in the primary "location" field.
 *   **🚀 Meeting Join HUD**: One minute before scheduled meetings, a premium floating notification appears with a 15-second countdown. Use the **"Join & Capture"** button to open your call and start the transcript in a single action.
 *   **🤖 Context-Aware Ad-hoc Tracking**: For unplanned Zoom or Slack calls, Vitroscribe automatically captures the **Meeting Window Title** (e.g., "Project Sync (Zoom)") to label your transcriptions instantly.
-*   **📂 Intelligent History & Renaming**: Transcripts are stored with rich metadata—**Meeting Title**, **Date**, and **Start/End Times**. You can rename any session in the history view for personalized organization.
+*   **📂 Optimized History Management**:
+    *   **Global Search**: Instantly find specific transcripts by searching through **Meeting Titles** or the **entire transcript content**.
+    *   **Date Filtering**: Use the graphical calendar picker to isolate meetings from any specific day.
+    *   **Smart Pagination**: Smooth performance with `Load More` logic designed to handle 1000+ meetings without lag.
+    *   **Intelligent Renaming**: Customize session titles for personalized organization.
 *   **📅 Dual-Calendar Sync**: Natively integrates with **Google Calendar** and **Microsoft Outlook / Office 365** (secure PKCE flow). It fetches up to 50 upcoming events to keep your dashboard full.
 *   **🔄 Instant Sync Matrix**: A dedicated "Sync Now" button in settings allows you to force a refresh across all connected platforms.
 *   **🔒 100% On-Device Privacy**: Transcriptions are processed entirely locally on your Mac using Apple's `SFSpeechRecognizer`. No audio or text data is ever sent to the cloud.
@@ -26,7 +30,7 @@
 
 1.  **The Detector:** Lightweight threads poll your active windows and hardware state every 2 seconds to spot active calls without impacting battery life.
 2.  **The Scribe:** When a meeting starts, audio is streamed into an absolute-timeline ledger. Vitroscribe automatically breaks dialogue into paragraphs based on natural speech pauses (>2s).
-3.  **The History Vault:** Sessions are stored with their capture date and meeting title. The sidebar removes technical IDs in favor of a clean, chronological `Time • Date` layout.
+3.  **The History Vault:** Sessions are stored with rich metadata. The sidebar features a clean, chronological layout with **Global Search** (searching titles and full text) and **Date Filtering** to keep your archive manageable.
 4.  **The Stop:** Once the meeting window or URL is closed, the app commits a final save and shuts down the engine instantly.
 
 ## 🚀 Getting Started
