@@ -6,9 +6,9 @@ import os.log
 class GoogleAuthManager: NSObject, ObservableObject, ASWebAuthenticationPresentationContextProviding {
     static let shared = GoogleAuthManager()
     
-    private let clientId = "482650596028-2oajhd8h2qkp66enum04798af8p7ersa.apps.googleusercontent.com"
-    private let clientSecret = "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"
-    private let redirectURI = "com.googleusercontent.apps.482650596028-2oajhd8h2qkp66enum04798af8p7ersa:/oauth2redirect"
+    private let clientId = "1052463006610-8oq7k9de4j2bkf7enls57h828ceho7f0.apps.googleusercontent.com"
+    private let clientSecret = "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"
+    private let redirectURI = "com.googleusercontent.apps.1052463006610-8oq7k9de4j2bkf7enls57h828ceho7f0:/oauth2redirect"
     
     @Published var isConnected: Bool = false
     @Published var connectedEmail: String = ""
@@ -47,11 +47,14 @@ class GoogleAuthManager: NSObject, ObservableObject, ASWebAuthenticationPresenta
         let codeVerifier = generateRandomString(length: 64)
         let codeChallenge = generateCodeChallenge(verifier: codeVerifier)
         
-        let authURLString = "https://accounts.google.com/o/oauth2/v2/auth?client_id=\(clientId)&redirect_uri=\(redirectURI)&response_type=code&scope=https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/userinfo.email&code_challenge=\(codeChallenge)&code_challenge_method=S256&access_type=offline&prompt=consent"
+        // Desktop-type OAuth clients must use the custom reverse-client-ID URI scheme
+        let callbackScheme = "com.googleusercontent.apps.1052463006610-8oq7k9de4j2bkf7enls57h828ceho7f0"
+        
+        let authURLString = "https://accounts.google.com/o/oauth2/v2/auth?client_id=\(clientId)&redirect_uri=\(redirectURI)&response_type=code&scope=https://www.googleapis.com/auth/calendar.readonly%20https://www.googleapis.com/auth/userinfo.email&code_challenge=\(codeChallenge)&code_challenge_method=S256&access_type=offline&prompt=consent"
         
         guard let authURL = URL(string: authURLString) else { return }
         
-        let session = ASWebAuthenticationSession(url: authURL, callbackURLScheme: "com.googleusercontent.apps.482650596028-2oajhd8h2qkp66enum04798af8p7ersa") { callbackURL, error in
+        let session = ASWebAuthenticationSession(url: authURL, callbackURLScheme: callbackScheme) { callbackURL, error in
             if let error = error {
                 Logger.shared.log("Auth error: \(error.localizedDescription)")
                 return
@@ -67,6 +70,7 @@ class GoogleAuthManager: NSObject, ObservableObject, ASWebAuthenticationPresenta
         }
         
         session.presentationContextProvider = self
+        session.prefersEphemeralWebBrowserSession = true
         session.start()
     }
     
