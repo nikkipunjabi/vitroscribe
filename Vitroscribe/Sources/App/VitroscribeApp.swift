@@ -4,6 +4,7 @@ import SwiftUI
 struct VitroscribeApp: App {
     
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @Environment(\.openWindow) private var openWindow
     
     var body: some Scene {
         WindowGroup {
@@ -14,6 +15,21 @@ struct VitroscribeApp: App {
                     RecordingOverlayManager.shared.updateVisibility(isRecording: isRecording)
                 }
         }
+        .commands {
+            CommandGroup(replacing: .appInfo) {
+                Button("About Vitroscribe") {
+                    openWindow(id: "about")
+                }
+            }
+        }
+        
+        Window("About Vitroscribe", id: "about") {
+            AboutView()
+                .fixedSize()
+        }
+        .windowStyle(.hiddenTitleBar)
+        .windowResizability(.contentSize)
+        .defaultPosition(.center)
     }
 }
 
