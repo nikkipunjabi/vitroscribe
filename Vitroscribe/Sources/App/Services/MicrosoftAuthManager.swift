@@ -16,6 +16,7 @@ class MicrosoftAuthManager: NSObject, ObservableObject, ASWebAuthenticationPrese
     @Published var lastError: String = ""
     
     private var accessToken: String?
+    private var lastTokenRefresh: Date?
     private var refreshToken: String? {
         get { UserDefaults.standard.string(forKey: "MicrosoftRefreshToken") }
         set { UserDefaults.standard.set(newValue, forKey: "MicrosoftRefreshToken") }
@@ -121,6 +122,7 @@ class MicrosoftAuthManager: NSObject, ObservableObject, ASWebAuthenticationPrese
                     }
                     
                     self.accessToken = json["access_token"] as? String
+                    self.lastTokenRefresh = Date()
                     if let refresh = json["refresh_token"] as? String {
                         self.refreshToken = refresh
                     }
@@ -160,6 +162,7 @@ class MicrosoftAuthManager: NSObject, ObservableObject, ASWebAuthenticationPrese
                 if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
                    let newAccess = json["access_token"] as? String {
                     self.accessToken = newAccess
+                    self.lastTokenRefresh = Date()
                     if let refresh = json["refresh_token"] as? String {
                         self.refreshToken = refresh
                     }
@@ -204,12 +207,16 @@ class MicrosoftAuthManager: NSObject, ObservableObject, ASWebAuthenticationPrese
     }
     
     func getValidAccessToken(completion: @escaping (String?) -> Void) {
-        if let token = accessToken {
-            completion(token)
-            return
+        if let token = accessToken, let lastRefresh = lastTokenRefresh {
+            // If token is less than 50 minutes old, use it
+            if Date().timeIntervalSince(lastRefresh) < 3000 {
+                completion(token)
+                return
+            }
         }
         
         if let refresh = refreshToken {
+            Logger.shared.log("Microsoft: Refreshing access token...")
             refreshAccessToken(token: refresh) { success in
                 completion(success ? self.accessToken : nil)
             }

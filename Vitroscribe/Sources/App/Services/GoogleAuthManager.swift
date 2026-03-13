@@ -14,6 +14,7 @@ class GoogleAuthManager: NSObject, ObservableObject, ASWebAuthenticationPresenta
     @Published var connectedEmail: String = ""
     
     private var accessToken: String?
+    private var lastTokenRefresh: Date?
     private var refreshToken: String? {
         get { UserDefaults.standard.string(forKey: "GoogleRefreshToken") }
         set { UserDefaults.standard.set(newValue, forKey: "GoogleRefreshToken") }
@@ -91,6 +92,7 @@ class GoogleAuthManager: NSObject, ObservableObject, ASWebAuthenticationPresenta
             do {
                 if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] {
                     self.accessToken = json["access_token"] as? String
+                    self.lastTokenRefresh = Date()
                     if let refresh = json["refresh_token"] as? String {
                         self.refreshToken = refresh // Save offline token
                     }
@@ -101,7 +103,7 @@ class GoogleAuthManager: NSObject, ObservableObject, ASWebAuthenticationPresenta
                     }
                 }
             } catch {
-                Logger.shared.log("Token exchange parsing error.")
+                Logger.shared.log("Google: Token exchange parsing error.")
             }
         }.resume()
     }
@@ -123,6 +125,7 @@ class GoogleAuthManager: NSObject, ObservableObject, ASWebAuthenticationPresenta
                 if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
                    let newAccess = json["access_token"] as? String {
                     self.accessToken = newAccess
+                    self.lastTokenRefresh = Date()
                     completion(true)
                 } else {
                     completion(false)
@@ -153,12 +156,16 @@ class GoogleAuthManager: NSObject, ObservableObject, ASWebAuthenticationPresenta
     }
     
     func getValidAccessToken(completion: @escaping (String?) -> Void) {
-        if let token = accessToken {
-            completion(token)
-            return
+        if let token = accessToken, let lastRefresh = lastTokenRefresh {
+            // If token is less than 50 minutes old, use it
+            if Date().timeIntervalSince(lastRefresh) < 3000 {
+                completion(token)
+                return
+            }
         }
         
         if let refresh = refreshToken {
+            Logger.shared.log("Google: Refreshing access token...")
             refreshAccessToken(token: refresh) { success in
                 completion(success ? self.accessToken : nil)
             }

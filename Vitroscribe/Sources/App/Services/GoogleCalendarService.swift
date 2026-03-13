@@ -72,10 +72,14 @@ class GoogleCalendarService: ObservableObject {
         guard GoogleAuthManager.shared.isConnected else { return }
         
         GoogleAuthManager.shared.getValidAccessToken { token in
-            guard let token = token else { return }
+            guard let token = token else { 
+                Logger.shared.log("Google: No valid access token. Skipping fetch.")
+                return 
+            }
             
             let dateFormatter = ISO8601DateFormatter()
-            let timeMin = dateFormatter.string(from: Date())
+            // Fetch events from 1 hour ago onwards to include currently running meetings
+            let timeMin = dateFormatter.string(from: Date().addingTimeInterval(-3600))
             
             // Get upcoming 50 events with specific fields for discovery
             let urlString = "https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=\(timeMin)&maxResults=50&orderBy=startTime&singleEvents=true&fields=items(id,summary,description,location,start,end,hangoutLink)"
@@ -84,8 +88,18 @@ class GoogleCalendarService: ObservableObject {
             var request = URLRequest(url: url)
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
             
-            URLSession.shared.dataTask(with: request) { data, _, error in
-                guard let data = data, error == nil else { return }
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                if let httpResponse = response as? HTTPURLResponse {
+                    Logger.shared.log("Google: API Status \(httpResponse.statusCode)")
+                    if httpResponse.statusCode == 401 {
+                        Logger.shared.log("Google: Unauthorized. Token might be stale.")
+                    }
+                }
+                
+                guard let data = data, error == nil else { 
+                    Logger.shared.log("Google: Network error: \(error?.localizedDescription ?? "unknown")")
+                    return 
+                }
                 do {
                     let response = try JSONDecoder().decode(GoogleEventResponse.self, from: data)
                     let items = response.items ?? []
