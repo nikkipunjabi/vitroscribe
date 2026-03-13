@@ -8,9 +8,10 @@
 *   **🚀 Meeting Join HUD**: One minute before scheduled meetings, a premium floating notification appears with a 15-second countdown. Use the **"Join & Capture"** button to open your call and start the transcript in a single action.
 *   **🤖 Context-Aware Ad-hoc Tracking**: For unplanned Zoom or Slack calls, Vitroscribe automatically captures the **Meeting Window Title** (e.g., "Project Sync (Zoom)") to label your transcriptions instantly.
 *   **📂 Optimized History Management**:
-    *   **Global Search**: Instantly find specific transcripts by searching through **Meeting Titles** or the **entire transcript content**.
+    *   **Global Search**: Instantly find specific transcripts by searching through **Meeting Titles** or the **entire transcript content**, with matched terms **highlighted in the transcript view**.
     *   **Date Filtering**: Use the graphical calendar picker to isolate meetings from any specific day.
     *   **Smart Pagination**: Smooth performance with `Load More` logic designed to handle 1000+ meetings without lag.
+    *   **Recording Duration**: Each session shows exactly **how long the recording ran** (e.g. `15m`, `1h 5m`) — visible both in the sidebar list and the transcript detail header.
     *   **Intelligent Renaming**: Customize session titles for personalized organization.
 *   **📅 Dual-Calendar Sync**: Natively integrates with **Google Calendar** and **Microsoft Outlook / Office 365** (secure PKCE flow). It fetches up to 50 upcoming events to keep your dashboard full.
 *   **🔄 Instant Sync Matrix**: A dedicated "Sync Now" button in settings allows you to force a refresh across all connected platforms.
@@ -30,7 +31,7 @@
 
 1.  **The Detector:** Lightweight threads poll your active windows and hardware state every 2 seconds to spot active calls without impacting battery life.
 2.  **The Scribe:** When a meeting starts, audio is streamed into an absolute-timeline ledger. Vitroscribe automatically breaks dialogue into paragraphs based on natural speech pauses (>2s).
-3.  **The History Vault:** Sessions are stored with rich metadata. The sidebar features a clean, chronological layout with **Global Search** (searching titles and full text) and **Date Filtering** to keep your archive manageable.
+3.  **The History Vault:** Sessions are stored with rich metadata — including **recording duration** (derived from session start vs. last transcript save). The sidebar features a clean, chronological layout with **Global Search** (with keyword highlighting), **Date Filtering**, and per-session duration badges to keep your archive manageable at a glance.
 4.  **The Stop:** Once the meeting window or URL is closed, the app commits a final save and shuts down the engine instantly.
 
 ## 🚀 Getting Started

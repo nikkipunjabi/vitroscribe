@@ -127,16 +127,22 @@ class DatabaseManager {
     struct SessionMetadata: Identifiable, Hashable {
         let id: String
         let createdAt: Date
+        let lastUpdatedAt: Date
         var title: String?
         let plannedStartTime: Date?
         let plannedEndTime: Date?
+        
+        /// Recording duration derived from createdAt → lastUpdatedAt
+        var recordingDuration: TimeInterval {
+            max(0, lastUpdatedAt.timeIntervalSince(createdAt))
+        }
     }
     
     func getSessionsMetadata(limit: Int? = nil, offset: Int = 0, searchText: String? = nil, filterDate: Date? = nil) -> [SessionMetadata] {
         guard let db = db else { return [] }
         var sessions: [SessionMetadata] = []
         do {
-            var query = transcriptsTable.select(sessionId, createdAt, title, plannedStartTime, plannedEndTime)
+            var query = transcriptsTable.select(sessionId, createdAt, timestamp, title, plannedStartTime, plannedEndTime)
             
             if let search = searchText, !search.isEmpty {
                 let searchPattern = "%\(search)%"
@@ -159,6 +165,7 @@ class DatabaseManager {
             for row in try db.prepare(query) {
                 let idValue = row[sessionId]
                 let createdDate = Date(timeIntervalSince1970: row[createdAt])
+                let lastUpdated = Date(timeIntervalSince1970: row[timestamp])
                 let titleValue = row[title]
                 let startValue = row[plannedStartTime].map { Date(timeIntervalSince1970: $0) }
                 let endValue = row[plannedEndTime].map { Date(timeIntervalSince1970: $0) }
@@ -166,6 +173,7 @@ class DatabaseManager {
                 sessions.append(SessionMetadata(
                     id: idValue,
                     createdAt: createdDate,
+                    lastUpdatedAt: lastUpdated,
                     title: titleValue,
                     plannedStartTime: startValue,
                     plannedEndTime: endValue

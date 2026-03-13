@@ -30,6 +30,20 @@ struct HistoryView: View {
     private let pageSize = 20
     @State private var isShowingDatePicker = false
     
+    private func durationString(_ seconds: TimeInterval) -> String {
+        guard seconds > 0 else { return "" }
+        let totalMinutes = Int(seconds) / 60
+        let hours = totalMinutes / 60
+        let minutes = totalMinutes % 60
+        if hours > 0 {
+            return "\(hours)h \(minutes)m"
+        } else if minutes > 0 {
+            return "\(minutes)m"
+        } else {
+            return "<1m"
+        }
+    }
+    
     var body: some View {
         HStack(spacing: 0) {
             // MARK: - Sidebar
@@ -101,6 +115,18 @@ struct HistoryView: View {
                                 }
                                 .font(.caption)
                                 .foregroundColor(.secondary)
+                                
+                                let dur = durationString(session.recordingDuration)
+                                if !dur.isEmpty {
+                                    HStack(spacing: 3) {
+                                        Image(systemName: "clock")
+                                            .font(.caption2)
+                                        Text(dur)
+                                            .font(.caption)
+                                    }
+                                    .foregroundColor(.secondary.opacity(0.8))
+                                }
+
                             }
                             .padding(.vertical, 4)
                             .tag(session.id)
@@ -204,16 +230,26 @@ struct HistoryView: View {
                                 .foregroundColor(.secondary)
                             
                             // Always show session date/time context
-                            VStack(alignment: .leading, spacing: 2) {
+                            VStack(alignment: .leading, spacing: 4) {
                                 Text("\(dateFormatter.string(from: selectedSession.createdAt)) at \(timeFormatter.string(from: selectedSession.createdAt))")
                                 
                                 if let start = selectedSession.plannedStartTime, let end = selectedSession.plannedEndTime {
                                     Text("\(timeFormatter.string(from: start)) - \(timeFormatter.string(from: end))")
                                         .foregroundColor(.blue.opacity(0.8))
                                 }
+                                
+                                let dur = durationString(selectedSession.recordingDuration)
+                                if !dur.isEmpty {
+                                    HStack(spacing: 4) {
+                                        Image(systemName: "clock.fill")
+                                        Text("Recording duration: \(dur)")
+                                    }
+                                    .foregroundColor(.green.opacity(0.85))
+                                }
                             }
                             .font(.subheadline)
                             .foregroundColor(.secondary)
+
                         }
                         Spacer()
                         
