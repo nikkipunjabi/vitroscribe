@@ -106,13 +106,13 @@ struct ContentView: View {
 
                 // Screen-recording permission warning
                 if !meetingDetector.isScreenRecordingAuthorized {
-                    HStack {
+                    HStack(spacing: 12) {
                         Image(systemName: "exclamationmark.triangle.fill")
                             .foregroundColor(.white)
-                        VStack(alignment: .leading) {
+                        VStack(alignment: .leading, spacing: 2) {
                             Text("Screen Recording Permission Required")
                                 .fontWeight(.bold)
-                            Text("To auto-detect Google Meet and Zoom, please grant permission in System Settings.")
+                            Text("If Vitroscribe already appears in Screen Recording settings, tap \"Reset & Relaunch\" to fix it.")
                                 .font(.caption)
                         }
                         Spacer()
@@ -121,6 +121,12 @@ struct ContentView: View {
                         }
                         .buttonStyle(.bordered)
                         .tint(.white)
+
+                        Button("Reset & Relaunch") {
+                            resetScreenRecordingPermission()
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(Color.white.opacity(0.25))
                     }
                     .padding()
                     .background(Color.red.opacity(0.8))
@@ -183,6 +189,31 @@ struct ContentView: View {
         }
         .padding()
         .onAppear { _ = MeetingDetector.shared }
+    }
+
+    // Clears the stale TCC entry left behind by a previous Vitroscribe binary.
+    // On macOS 15, unsigned builds each get a unique identity so the old
+    // "Vitroscribe ON" entry no longer matches the running binary. Resetting it
+    // forces macOS to present a fresh permission prompt on the next launch.
+    private func resetScreenRecordingPermission() {
+        let task = Process()
+        task.executableURL = URL(fileURLWithPath: "/usr/bin/tccutil")
+        task.arguments = ["reset", "ScreenCapture", "com.nikkipunjabi.Vitroscribe"]
+        try? task.run()
+        task.waitUntilExit()
+
+        let alert = NSAlert()
+        alert.messageText = "Permission Reset"
+        alert.informativeText = "Screen Recording permission has been cleared. Vitroscribe will now relaunch and ask for permission again — please grant it when prompted."
+        alert.alertStyle = .informational
+        alert.addButton(withTitle: "Relaunch Now")
+        alert.runModal()
+
+        // Relaunch the app so the fresh permission prompt fires on next launch.
+        let url = Bundle.main.bundleURL
+        NSWorkspace.shared.openApplication(at: url,
+                                           configuration: NSWorkspace.OpenConfiguration()) { _, _ in }
+        NSApp.terminate(nil)
     }
 }
 

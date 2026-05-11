@@ -55,8 +55,6 @@ class MeetingDetector: ObservableObject {
                 return
             }
 
-            let ownPID = ProcessInfo.processInfo.processIdentifier
-            var externalWindowFound = false
             var meetingFound = false
             var exactMeetingMatch = false
             var isBrowserOpen = false
@@ -70,11 +68,6 @@ class MeetingDetector: ObservableObject {
             for window in windowList {
                 let windowName = (window[kCGWindowName as String] as? String ?? "").lowercased()
                 let ownerName = (window[kCGWindowOwnerName as String] as? String ?? "").lowercased()
-                let windowPID = window[kCGWindowOwnerPID as String] as? Int32 ?? 0
-
-                if windowPID != ownPID && !windowName.isEmpty {
-                    externalWindowFound = true
-                }
 
                 if browsers.contains(ownerName) {
                     isBrowserOpen = true
@@ -153,7 +146,8 @@ class MeetingDetector: ObservableObject {
                 }
             }
 
-            DispatchQueue.main.async { self.isScreenRecordingAuthorized = externalWindowFound }
+            // isScreenRecordingAuthorized is updated once at launch by the SCK pre-warm
+            // call in VitroscribeApp — do not overwrite it here.
 
             // 2. Browser Tab Check — uses title + URL so a "meeting ended" page is not treated as active
             if !exactMeetingMatch && isBrowserOpen {

@@ -73,6 +73,7 @@ class SystemAudioCapture: NSObject {
 
     enum CaptureError: Error {
         case noDisplay
+        case permissionDenied
     }
 }
 
